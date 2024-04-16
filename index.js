@@ -34,29 +34,100 @@ addButton.addEventListener("click", () => {
     }
 });
 
-const lightbox = document.getElementById('lightbox');
-const openButton = document.querySelector('.submit-button');
-const lightboxButtons = document.querySelectorAll('.lightboxButton');
-const overlay = document.getElementById('overlay');
-const closeButton = document.querySelector('.close-img');
+selectedDrink = { "cacao": "Какао", "espresso": "Эспрессо", "capuccino": "Капучино"};
+milkType = { "обычном молоке": "обычное молоко",
+    "обезжиренном молоке": "обезжиренное молоко",
+    "соевом молоке": "соевое молоко",
+    "кокосовом молоке": "кокосовое молоко",
+};
+extras = { "взбитых сливок": "взбитые сливки",
+    "зефирок": "зефирки",
+    "шоколад": "шоколад",
+    "корицу": "корица"
+}
 
-openButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    lightbox.style.display = 'flex';
-    overlay.style.display = 'block';
-});
+document.addEventListener('DOMContentLoaded', function() {
+    const lightbox = document.getElementById('lightbox');
+    const openButton = document.querySelector('.submit-button');
+    const lightboxButtons = document.querySelectorAll('.lightboxButton');
+    const overlay = document.getElementById('overlay');
+    const closeButton = document.querySelector('.close-img');
+    const infoMenu = document.getElementById('info-menu');
+    const table = document.getElementById('drinkTable');
 
-lightboxButtons.forEach(lightboxButtonElement => {
-    lightboxButtonElement.addEventListener('click', () => {
+    openButton.addEventListener('click', (event) => {
+        let drinksData = getDataFromForm()
+        let count = drinksData.length;
+        let word_count = getBeverageDeclension(count);
+        infoMenu.textContent = `Вы заказали ${count} ${word_count}`;
+        table.innerHTML = "<tr><th>Напиток</th><th>Молоко</th><th>Добавки</th></tr>";
+        drinksData.forEach(drink => {
+            const row = table.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            cell1.textContent = selectedDrink[drink.selectedDrink];
+            cell2.textContent = milkType[drink.milkType];
+            cell3.textContent = extras[drink.extras];
+        });
+        event.preventDefault();
+        lightbox.style.display = 'flex';
+        overlay.style.display = 'block';
+    });
+
+    lightboxButtons.forEach(lightboxButtonElement => {
+        lightboxButtonElement.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    });
+
+    closeButton.addEventListener("click", function() {
         lightbox.style.display = 'none';
         overlay.style.display = 'none';
     });
+
+
+    function getDataFromForm() {
+        let data = [];
+        document.querySelectorAll('.beverage').forEach(beverageElement => {
+            const selectedDrink = beverageElement.querySelector('select').value;
+
+            let milkType = '';
+            beverageElement.querySelectorAll('input[name="milk"]').forEach(input => {
+                if (input.checked) {
+                    milkType = input.nextElementSibling.innerText;
+                }
+            });
+
+            const extras = [];
+            beverageElement.querySelectorAll('input[name="options"]:checked').forEach(input => {
+                extras.push(input.nextElementSibling.innerText);
+            });
+
+            data.push({
+                selectedDrink: selectedDrink,
+                milkType: milkType,
+                extras: extras
+            });
+        });
+
+        return data;
+    }
+
+    // Создание HTML строки на основе данных
+    // let tableHtml = `<table>`;
+    // tableHtml += `<tr><th>ID</th><th>Name</th><th>Age</th></tr>`;
+    //
+    // data.forEach(item => {
+    //     tableHtml += `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.age}</td></tr>`;
+    // });
+    //
+    // tableHtml += `</table>`;
+    // document.body.innerHTML += tableHtml;
+
 });
 
-closeButton.addEventListener("click", function() {
-    lightbox.style.display = 'none';
-    overlay.style.display = 'none';
-});
 
 function getBeverageDeclension(num) {
     if (num % 10 === 1 && num % 100 !== 11) {
