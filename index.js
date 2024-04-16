@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const cell3 = row.insertCell(2);
             cell1.textContent = selectedDrink[drink.selectedDrink];
             cell2.textContent = milkType[drink.milkType];
-            cell3.textContent = extras[drink.extras];
+            cell3.textContent = drink.extras.map(element => extras[element]).join(', ');
         });
         event.preventDefault();
         lightbox.style.display = 'flex';
@@ -114,18 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         return data;
     }
-
-    // Создание HTML строки на основе данных
-    // let tableHtml = `<table>`;
-    // tableHtml += `<tr><th>ID</th><th>Name</th><th>Age</th></tr>`;
-    //
-    // data.forEach(item => {
-    //     tableHtml += `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.age}</td></tr>`;
-    // });
-    //
-    // tableHtml += `</table>`;
-    // document.body.innerHTML += tableHtml;
-
 });
 
 
