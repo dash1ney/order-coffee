@@ -9,11 +9,11 @@ addButton.addEventListener("click", () => {
     const beverageFields = document.querySelectorAll(".beverage")[0];
     const clonedFields = beverageFields.cloneNode(true);
 
-    const milkRadio = clonedFields.querySelector('input[type="radio"][name="milk"]');
+    const milkElements = clonedFields.querySelectorAll('input[type="radio"][name="milk1"]');
 
-    if (milkRadio) {
-        milkRadio.setAttribute('name', `milk${beverageFields}`);
-    }
+    milkElements.forEach(element => {
+        element.setAttribute('name', `milk${beverageCount}`);
+    });
 
 
     const clonedBeverageCount = clonedFields.querySelector(".beverage-count");
