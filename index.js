@@ -9,6 +9,13 @@ addButton.addEventListener("click", () => {
     const beverageFields = document.querySelectorAll(".beverage")[0];
     const clonedFields = beverageFields.cloneNode(true);
 
+    const milkRadio = clonedFields.querySelector('input[type="radio"][name="milk"]');
+
+    if (milkRadio) {
+        milkRadio.setAttribute('name', `milk${beverageFields}`);
+    }
+
+
     const clonedBeverageCount = clonedFields.querySelector(".beverage-count");
     clonedBeverageCount.textContent = `Напиток №${beverageCount}`;
 
