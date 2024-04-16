@@ -97,11 +97,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getDataFromForm() {
         let data = [];
+        let beverage_id = 1;
         document.querySelectorAll('.beverage').forEach(beverageElement => {
             const selectedDrink = beverageElement.querySelector('select').value;
 
             let milkType = '';
-            beverageElement.querySelectorAll('input[name="milk"]').forEach(input => {
+            beverageElement.querySelectorAll(`input[name="milk${beverage_id}"]`).forEach(input => {
                 if (input.checked) {
                     milkType = input.nextElementSibling.innerText;
                 }
@@ -117,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 milkType: milkType,
                 extras: extras
             });
+            beverage_id++;
         });
 
         return data;
