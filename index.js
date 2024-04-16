@@ -57,3 +57,13 @@ closeButton.addEventListener("click", function() {
     lightbox.style.display = 'none';
     overlay.style.display = 'none';
 });
+
+function getBeverageDeclension(num) {
+    if (num % 10 === 1 && num % 100 !== 11) {
+        return "напиток";
+    } else if ([2, 3, 4].includes(num % 10) && ![12, 13, 14].includes(num % 100)) {
+        return "напитка";
+    } else {
+        return "напитков";
+    }
+}
